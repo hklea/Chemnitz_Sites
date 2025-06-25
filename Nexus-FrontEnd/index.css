@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://unpkg.com/leaflet@1.9.4/dist/leaflet.css');
+html {
+  scroll-behavior: smooth;
+}
+
+@font-face {
+  font-family: "Lato";
+  font-style: normal;
+  font-weight: 400;
+  src: url("/src/assets/Fonts/Lato-Regular.ttf") format("truetype");
+}
+
+.michroma-regular {
+  font-family: "Michroma", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@300;400;500;700;900&display=swap");
+
+/* Custom Font Classes */
+.kumbh-sans-light {
+  @apply font-kumbh-sans;
+  font-weight: 300;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-variation-settings: "YOPQ" 300;
+}
+
+.kumbh-sans-normal {
+  @apply font-kumbh-sans;
+  font-weight: 400;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-variation-settings: "YOPQ" 300;
+}
+
+.kumbh-sans-medium {
+  @apply font-kumbh-sans;
+  font-weight: 500;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-variation-settings: "YOPQ" 300;
+}
+
+.kumbh-sans-bold {
+  @apply font-kumbh-sans;
+  font-weight: 700;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-variation-settings: "YOPQ" 300;
+}
+
+.kumbh-sans-black {
+  @apply font-kumbh-sans;
+  font-weight: 900;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-variation-settings: "YOPQ" 300;
+}
+
+
