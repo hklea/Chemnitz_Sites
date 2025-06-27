@@ -2,6 +2,7 @@ import { useState } from "react";
 import { registerUser } from "../API/authAPI";
 import LoginButton from "./buttons/LoginButton";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 type RegisterFormProps = {
   setIsRegister: (value: boolean) => void;
@@ -9,6 +10,7 @@ type RegisterFormProps = {
 
 function RegisterForm({ setIsRegister }: RegisterFormProps) {
   const navigate = useNavigate();
+  const { login } = useAuth(); // 👈 context hook
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,9 +21,18 @@ function RegisterForm({ setIsRegister }: RegisterFormProps) {
     const user = { username, email, password, location };
 
     try {
-      const registeredUser = await registerUser(user);
-      console.log("User registered:", registeredUser);
-      alert(`Welcome , ${username}!`);
+      const { user: registeredUser, token } = await registerUser(user);
+
+      // Normalize for context if needed
+      const normalizedUser = {
+        _id: registeredUser.id,
+        username: registeredUser.username,
+        email: registeredUser.email,
+        location: registeredUser.location,
+      };
+
+      login(normalizedUser, token); // 👈 store in Auth context
+      alert(`Welcome, ${username}!`);
       navigate("/dashboard");
     } catch (err: any) {
       console.error(err);
