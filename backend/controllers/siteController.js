@@ -11,12 +11,24 @@ const getAllSites = async (req, res) => {
 
 const getSitesByCategory = async (req, res) => {
   const rawCategory = req.params.category;
-  const category = rawCategory.trim(); // remove extra spaces
+  const category = rawCategory.trim();
+ 
+  const fieldsToSearch = [
+    "features.properties.amenity",
+    "features.properties.tourism",
+    "features.properties.leisure",
+    "features.properties.museum",
+    "features.properties.cuisine",
+    "features.properties.office",
+    "features.properties.shop"
+  ];
 
   try {
-    const sites = await Site.find({
-      category: { $regex: new RegExp(`^${category}$`, "i") } // case-insensitive
-    });
+    const orQueries = fieldsToSearch.map((field) => ({
+      [field]: { $regex: new RegExp(`^${category}$`, "i") },
+    }));
+
+    const sites = await Site.find({ $or: orQueries });
 
     if (sites.length === 0) {
       console.log("No sites found for category:", category);
