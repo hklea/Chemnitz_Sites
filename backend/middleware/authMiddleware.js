@@ -31,7 +31,7 @@ module.exports = (req, res, next) => {
     }
 
     const decoded = jwt.verify(token, JWT_SECRET);
-    console.log("Decoded JWT payload:", decoded);
+    // console.log("Decoded JWT payload:", decoded);
 
     // Flexible assignment for userId based on token payload keys
     req.userId = decoded.userId || decoded.id || decoded._id;

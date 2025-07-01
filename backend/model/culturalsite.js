@@ -1,22 +1,25 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
-const siteSchema = new mongoose.Schema({
-  _id:String,
-  name: String,
-  category: String,
-  description: String,
-  location: {
-    lat: Number,
-    lng: Number
-  },
-  address: String,
-  phone: String,
-  email: String,
-  website: String,
-  image: String,
-  favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-  reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }]
-  }, { collection: 'Chemnitz'
+// Define the schema for a single Feature item
+const SiteItemSchema = new Schema({
+  type: { type: String },
+  id: { type: String },
+  properties: { type: Schema.Types.Mixed },
+  geometry: {
+    type: {
+      type: String
+    },
+    coordinates: [Number]
+  }
+
+}, { _id: false }); 
+
+const SiteSchema = new Schema({
+  type: { type: String },
+  features: [SiteItemSchema]
 });
 
-module.exports = mongoose.model("Site", siteSchema);
+// Export the model
+const Site = mongoose.model('Site',SiteSchema);
+module.exports = Site;

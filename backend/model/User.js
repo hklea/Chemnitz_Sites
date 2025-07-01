@@ -4,8 +4,8 @@ const UserSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
-    min: 3,
-    max: 20,
+    minlength: 3,  
+    maxlength: 20,
   },
   email: {
     type: String,
@@ -16,18 +16,16 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    min: 6,
+    minlength: 6,   
   },
   location: {
     type: String,
     default: "",
   },
-  favorites: [{
-    // type: mongoose.Schema.Types.ObjectId,
-    // ref: "Site"
-    // type:[String]
-     type: String, ref: 'Site'
-  }]
+ favorites: {
+  type: [String],
+  default: []
+}
 }, { timestamps: true });
 
 module.exports = mongoose.model("User", UserSchema);
