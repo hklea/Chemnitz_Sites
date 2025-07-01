@@ -12,7 +12,6 @@ function Search({handleSearch}:{ handleSearch: (siteId:string)=> void}) {
       return;
     }
 
-    // Debounce the API call
     if (debounceTimeout) {
       clearTimeout(debounceTimeout);
     }

@@ -1,11 +1,6 @@
 import axios from "../config/axiosConfig";
 
 import { Site } from "../types/culturalSiteType";
-
-
-
-
-// Mapping of category value to its corresponding field
 const categoryFieldMap: Record<string, string> = {
   museum: "tourism",
   gallery: "tourism",
@@ -62,3 +57,6 @@ export const searchSitesByName = async (name: string): Promise<SearchResult[]> =
     throw error;
   }
 };
+
+
+

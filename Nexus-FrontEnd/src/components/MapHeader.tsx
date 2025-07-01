@@ -1,6 +1,4 @@
 import Search from './Search'
-import React from 'react'
-
 interface MapHeaderProps{
     selectedCategory: string;
     setSelectedCategory: (category: string) =>void
