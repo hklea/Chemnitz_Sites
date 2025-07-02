@@ -3,6 +3,7 @@ import axios from "axios";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import StarRating from "./StarRating";
+import { PencilIcon } from "@heroicons/react/24/outline";
 
 interface FavoriteSite {
   id: string;
@@ -122,6 +123,28 @@ const Dashboard: React.FC = () => {
       setSubmittingReviewId(null);
     }
   };
+
+  const deleteReview = async (reviewId: string, siteId: string) => {
+  if (!window.confirm("Are you sure you want to delete this review?")) return;
+
+  try {
+    await axios.delete(`http://localhost:5000/api/reviews/${reviewId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    setMessage("Review deleted successfully.");
+    setTimeout(() => setMessage(null), 3000);
+
+    // Refresh the reviews for the site after deletion
+    const reviewRes = await axios.get(
+      `http://localhost:5000/api/reviews/site/${encodeURIComponent(siteId)}`
+    );
+    setReviews((prev) => ({ ...prev, [siteId]: reviewRes.data }));
+  } catch (err) {
+    console.error("Failed to delete review:", err);
+    alert("Failed to delete review.");
+  }
+};
 
   // Update review via API call
   const handleSaveEdit = async (reviewId: string) => {
@@ -262,17 +285,27 @@ const Dashboard: React.FC = () => {
                                     <span className="text-yellow-500">({rev.rating}★)</span>
                                   </span>
                                   {isOwner && (
-                                    <button
-                                      title="Edit review"
-                                      onClick={() => {
-                                        setEditingReviewId(rev._id);
-                                        setEditInputs({ text: rev.reviewText, rating: rev.rating });
-                                      }}
-                                      className="ml-2 text-blue-600 hover:text-blue-800"
-                                    >
-                                      ✏️
-                                    </button>
-                                  )}
+                                      <div className="flex space-x-2">
+                                        <button
+                                          title="Edit review"
+                                          onClick={() => {
+                                            setEditingReviewId(rev._id);
+                                            setEditInputs({ text: rev.reviewText, rating: rev.rating });
+                                          }}
+                                          className="text-blue-600 hover:text-blue-800 p-1 rounded"
+                                        >
+                                          <PencilIcon className="h-5 w-5" />
+                                        </button>
+                                        <button
+                                          title="Delete review"
+                                          onClick={() => deleteReview(rev._id, site.id)}
+                                          className="text-red-600 hover:text-red-800 p-1 rounded"
+                                        >
+                                          <TrashIcon className="h-5 w-5" />
+                                        </button>
+                                      </div>
+                                    )}
+
                                 </div>
                               )}
                             </li>

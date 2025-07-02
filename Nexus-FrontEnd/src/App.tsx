@@ -9,24 +9,47 @@ import AuthPage from './pages/AuthPage';
 import Dashboard from './components/Dashboard';
 import Footer from './pages/Footer';
 import ScrollTop from './components/ScrollTop';
+// function App() {
+//   return (
+//     <Router>
+//       <ScrollTop/>
+//         <Header/>
+//       <Routes>
+//         <Route path="/" element={<Home />} />
+//         <Route path="/culture" element={<CulturalSiteList />} />
+//         <Route path="/about-chemnitz" element={<AboutChemnitz />} />
+//         <Route path="/explore" element={<MapPage />} />
+//         <Route path="/auth" element={<AuthPage />} />
+//         <Route path="/dashboard" element={<Dashboard/>}/>
+  
+//       </Routes>
+//       <Footer/>
+//     </Router>
+//   );
+// }
+
+// export default App;
+
 function App() {
   return (
     <Router>
-      <ScrollTop/>
-        <Header/>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/culture" element={<CulturalSiteList />} />
-        <Route path="/about-chemnitz" element={<AboutChemnitz />} />
-        <Route path="/explore" element={<MapPage />} />
-        <Route path="/auth" element={<AuthPage />} />
-        <Route path="/dashboard" element={<Dashboard/>}/>
-  
-      </Routes>
-      <Footer/>
+      <ScrollTop />
+      <div className="flex flex-col min-h-screen">
+        <Header />
+        <main className="flex-grow">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/culture" element={<CulturalSiteList />} />
+            <Route path="/about-chemnitz" element={<AboutChemnitz />} />
+            <Route path="/explore" element={<MapPage />} />
+            <Route path="/auth" element={<AuthPage />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
     </Router>
   );
 }
 
 export default App;
-
