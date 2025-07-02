@@ -3,6 +3,7 @@ import { registerUser } from "../API/authAPI";
 import LoginButton from "./buttons/LoginButton";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { Eye, EyeOff } from "lucide-react"; // 👁️ icons
 
 type RegisterFormProps = {
   setIsRegister: (value: boolean) => void;
@@ -10,12 +11,13 @@ type RegisterFormProps = {
 
 function RegisterForm({ setIsRegister }: RegisterFormProps) {
   const navigate = useNavigate();
-  const { login } = useAuth(); // 👈 context hook
+  const { login } = useAuth();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [location, setLocation] = useState("");
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // 👁️
 
   const handleRegister = async () => {
     const user = { username, email, password, location };
@@ -23,7 +25,6 @@ function RegisterForm({ setIsRegister }: RegisterFormProps) {
     try {
       const { user: registeredUser, token } = await registerUser(user);
 
-      // Normalize for context if needed
       const normalizedUser = {
         _id: registeredUser.id,
         username: registeredUser.username,
@@ -31,7 +32,7 @@ function RegisterForm({ setIsRegister }: RegisterFormProps) {
         location: registeredUser.location,
       };
 
-      login(normalizedUser, token); // 👈 store in Auth context
+      login(normalizedUser, token);
       alert(`Welcome, ${username}!`);
       navigate("/dashboard");
     } catch (err: any) {
@@ -64,14 +65,26 @@ function RegisterForm({ setIsRegister }: RegisterFormProps) {
           className="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white/80"
           required
         />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white/80"
-          required
-        />
+
+        {/* Password with eye icon */}
+        <div className="relative">
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white/80 pr-10"
+            required
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword((prev) => !prev)}
+            className="absolute right-3 top-3 text-gray-600 hover:text-gray-900"
+          >
+            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+          </button>
+        </div>
+
         <input
           type="text"
           placeholder="Location (optional)"

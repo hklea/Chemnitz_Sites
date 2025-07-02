@@ -15,6 +15,7 @@ const CulturePreview: React.FC = () => {
       >
         Read More
       </Link>
+      
     </section>
   );
 };

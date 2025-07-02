@@ -1,215 +1,8 @@
-// // // import React, { useState, useEffect } from "react";
-// // // import { useNavigate } from "react-router-dom";
-// // // import { TrashIcon, StarIcon, ChatBubbleLeftEllipsisIcon } from "@heroicons/react/24/outline";
-// // // import axios from "axios";
-
-// // // interface Site {
-// // //   _id: string;
-// // //   name: string;
-// // //   category: string;
-// // //   address?: string;
-// // //   website?: string;
-// // // }
-
-// // // interface User {
-// // //   _id: string;
-// // //   username: string;
-// // //   email: string;
-// // //   location?: string;
-// // //   avatarUrl?: string;
-// // // }
-
-// // // const Dashboard: React.FC = () => {
-// // //   const navigate = useNavigate();
-// // //   const userString = localStorage.getItem("user");
-// // //   const token = localStorage.getItem("token");
-// // //   const user: User | null = userString ? JSON.parse(userString) : null;
-
-// // //   const [activeTab, setActiveTab] = useState<"favorites" | "review">("favorites");
-// // //   const [savedSites, setSavedSites] = useState<Site[]>([]);
-// // //   const [loadingSites, setLoadingSites] = useState(false);
-// // //   const [errorSites, setErrorSites] = useState<string | null>(null);
-
-// // //   const [review, setReview] = useState("");
-// // //   const [reviewSuccess, setReviewSuccess] = useState(false);
-
-// // //   useEffect(() => {
-// // //     if (!token) return;
-
-// // //     const fetchSavedSites = async () => {
-// // //       setLoadingSites(true);
-// // //       try {
-// // //         const res = await axios.get("http://localhost:5000/api/sites/saved", {
-// // //           headers: { Authorization: `Bearer ${token}` },
-// // //         });
-// // //         setSavedSites(res.data || []);
-// // //         setErrorSites(null);
-// // //       } catch (err: any) {
-// // //         setErrorSites(err.response?.data?.message || "Failed to load saved sites.");
-// // //       } finally {
-// // //         setLoadingSites(false);
-// // //       }
-// // //     };
-
-// // //     fetchSavedSites();
-// // //   }, [token]);
-
-// // //   const handleRemoveSite = async (id: string) => {
-// // //     if (!token) return;
-// // //     try {
-// // //       await axios.delete(`http://localhost:5000/api/sites/saved/${id}`, {
-// // //         headers: { Authorization: `Bearer ${token}` },
-// // //       });
-// // //       setSavedSites((prev) => prev.filter((site) => site._id !== id));
-// // //     } catch {
-// // //       alert("Failed to remove site");
-// // //     }
-// // //   };
-
-// // //   const handleReviewSubmit = (e: React.FormEvent) => {
-// // //     e.preventDefault();
-// // //     if (!review.trim()) return;
-// // //     setReviewSuccess(true);
-// // //     setReview("");
-// // //     setTimeout(() => setReviewSuccess(false), 3000);
-// // //   };
-
-// // //   if (!user) {
-// // //     return (
-// // //       <div className="flex items-center justify-center min-h-screen bg-gray-50">
-// // //         <div className="text-center text-red-600">
-// // //           No user data found. Please{" "}
-// // //           <button onClick={() => navigate("/auth")} className="text-blue-600 underline">
-// // //             log in
-// // //           </button>
-// // //           .
-// // //         </div>
-// // //       </div>
-// // //     );
-// // //   }
-
-// // //   return (
-// // //     <div className="flex min-h-screen font-sans bg-[url('/path-to-image.jpg')] bg-cover bg-center">
-// // //       <aside className="w-64 bg-white/80 shadow-md flex flex-col p-6">
-// // //         <div className="flex flex-col items-center mb-10">
-// // //           <div className="w-20 h-20 bg-gray-300 rounded-full flex items-center justify-center text-5xl text-gray-600 font-bold mb-4">
-// // //             {user.avatarUrl ? (
-// // //               <img src={user.avatarUrl} alt="Avatar" className="w-20 h-20 rounded-full object-cover" />
-// // //             ) : (
-// // //               user.username.charAt(0).toUpperCase()
-// // //             )}
-// // //           </div>
-// // //           <h2 className="text-xl font-semibold">{user.username}</h2>
-// // //           <p className="text-gray-600 text-sm">{user.email}</p>
-// // //           {user.location && <p className="text-gray-500 text-sm">{user.location}</p>}
-// // //         </div>
-// // //       </aside>
-
-// // //       <main className="flex-1 p-8 bg-white/80">
-// // //         <h1 className="text-4xl font-bold mb-8 text-gray-800">Welcome, {user.username}</h1>
-
-// // //         <div className="flex space-x-4 mb-8 border-b border-gray-300">
-// // //           <button
-// // //             className={`flex items-center gap-2 pb-2 font-semibold transition ${
-// // //               activeTab === "favorites"
-// // //                 ? "border-b-4 border-blue-600 text-blue-600"
-// // //                 : "text-gray-600 hover:text-blue-600"
-// // //             }`}
-// // //             onClick={() => setActiveTab("favorites")}
-// // //           >
-// // //             <StarIcon className="w-5 h-5" />
-// // //             Saved Sites
-// // //           </button>
-// // //           <button
-// // //             className={`flex items-center gap-2 pb-2 font-semibold transition ${
-// // //               activeTab === "review"
-// // //                 ? "border-b-4 border-blue-600 text-blue-600"
-// // //                 : "text-gray-600 hover:text-blue-600"
-// // //             }`}
-// // //             onClick={() => setActiveTab("review")}
-// // //           >
-// // //             <ChatBubbleLeftEllipsisIcon className="w-5 h-5" />
-// // //             Leave a Review
-// // //           </button>
-// // //         </div>
-
-// // //         {activeTab === "favorites" && (
-// // //           <section>
-// // //             {loadingSites ? (
-// // //               <p>Loading saved sites...</p>
-// // //             ) : errorSites ? (
-// // //               <p className="text-red-600">{errorSites}</p>
-// // //             ) : savedSites.length === 0 ? (
-// // //               <p className="text-gray-600 italic">You have no saved sites yet.</p>
-// // //             ) : (
-// // //               <ul className="space-y-4 max-w-3xl">
-// // //                 {savedSites.map((site) => (
-// // //                   <li
-// // //                     key={site._id}
-// // //                     className="bg-white/80 p-4 rounded-lg shadow-md flex justify-between items-center"
-// // //                   >
-// // //                     <div>
-// // //                       <h3 className="font-semibold text-lg">{site.name}</h3>
-// // //                       <p className="text-gray-600">{site.category}</p>
-// // //                       <p className="text-sm text-gray-500">{site.address || "No address"}</p>
-// // //                       {site.website && (
-// // //                         <a
-// // //                           href={site.website}
-// // //                           target="_blank"
-// // //                           rel="noopener noreferrer"
-// // //                           className="text-blue-600 hover:underline text-sm"
-// // //                         >
-// // //                           Visit website
-// // //                         </a>
-// // //                       )}
-// // //                     </div>
-// // //                     <button
-// // //                       onClick={() => handleRemoveSite(site._id)}
-// // //                       className="text-red-600 hover:text-red-800 transition"
-// // //                       aria-label={`Remove ${site.name}`}
-// // //                     >
-// // //                       <TrashIcon className="w-6 h-6" />
-// // //                     </button>
-// // //                   </li>
-// // //                 ))}
-// // //               </ul>
-// // //             )}
-// // //           </section>
-// // //         )}
-
-// // //         {activeTab === "review" && (
-// // //           <section className="max-w-lg">
-// // //             <form onSubmit={handleReviewSubmit} className="flex flex-col">
-// // //               <textarea
-// // //                 className="border border-gray-300 rounded-md p-3 mb-4 resize-none focus:outline-none focus:ring-2 focus:ring-blue-600"
-// // //                 placeholder="Write your review..."
-// // //                 value={review}
-// // //                 onChange={(e) => setReview(e.target.value)}
-// // //                 rows={6}
-// // //               />
-// // //               <button
-// // //                 type="submit"
-// // //                 disabled={!review.trim()}
-// // //                 className="bg-blue-600 disabled:bg-blue-300 text-white py-2 rounded-md transition hover:bg-blue-700"
-// // //               >
-// // //                 Submit Review
-// // //               </button>
-// // //               {reviewSuccess && (
-// // //                 <p className="mt-3 text-green-600 font-medium">Review submitted successfully!</p>
-// // //               )}
-// // //             </form>
-// // //           </section>
-// // //         )}
-// // //       </main>
-// // //     </div>
-// // //   );
-// // // };
-
-// // // export default Dashboard;
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
+import StarRating from "./StarRating";
 
 interface FavoriteSite {
   id: string;
@@ -225,6 +18,14 @@ interface FavoriteSite {
   };
 }
 
+interface Review {
+  _id: string;
+  userId: { username: string };
+  reviewText: string;
+  rating: number;
+  createdAt: string;
+}
+
 interface User {
   username: string;
   email: string;
@@ -232,12 +33,19 @@ interface User {
   avatarUrl?: string;
 }
 
-const UserProfile: React.FC = () => {
+const Dashboard: React.FC = () => {
   const [favorites, setFavorites] = useState<FavoriteSite[]>([]);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState<string | null>(null);
-  const navigate = useNavigate();
+  const [reviews, setReviews] = useState<Record<string, Review[]>>({});
+  const [reviewInputs, setReviewInputs] = useState<Record<string, { text: string; rating: number }>>({});
+  const [submittingReviewId, setSubmittingReviewId] = useState<string | null>(null);
 
+  // New state for editing reviews
+  const [editingReviewId, setEditingReviewId] = useState<string | null>(null);
+  const [editInputs, setEditInputs] = useState<{ text: string; rating: number }>({ text: "", rating: 0 });
+
+  const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const userString = localStorage.getItem("user");
   const user: User | null = userString ? JSON.parse(userString) : null;
@@ -254,8 +62,17 @@ const UserProfile: React.FC = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
         setFavorites(res.data);
+
+        const reviewMap: Record<string, Review[]> = {};
+        for (const site of res.data) {
+          const reviewRes = await axios.get(
+            `http://localhost:5000/api/reviews/site/${encodeURIComponent(site.id)}`
+          );
+          reviewMap[site.id] = reviewRes.data;
+        }
+        setReviews(reviewMap);
       } catch (err) {
-        console.error("Error fetching favorites:", err);
+        console.error("Error fetching data:", err);
       } finally {
         setLoading(false);
       }
@@ -269,11 +86,8 @@ const UserProfile: React.FC = () => {
       await axios.post(
         "http://localhost:5000/api/favorites/removeFavorite",
         { featureId },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
-
       setFavorites((prev) => prev.filter((site) => site.id !== featureId));
       setMessage("Location removed from favorites.");
       setTimeout(() => setMessage(null), 3000);
@@ -281,6 +95,66 @@ const UserProfile: React.FC = () => {
       console.error("Failed to remove:", err);
       alert("Failed to remove from favorites.");
     }
+  };
+
+  const submitReview = async (siteId: string) => {
+    const input = reviewInputs[siteId];
+    if (!input?.text || !input.rating) {
+      alert("Please enter review text and rating.");
+      return;
+    }
+    try {
+      setSubmittingReviewId(siteId);
+      await axios.post(
+        "http://localhost:5000/api/reviews/addReview",
+        { featureId: siteId, reviewText: input.text, rating: input.rating },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setMessage("Review submitted successfully.");
+      setTimeout(() => setMessage(null), 3000);
+      const reviewRes = await axios.get(`http://localhost:5000/api/reviews/site/${encodeURIComponent(siteId)}`);
+      setReviews((prev) => ({ ...prev, [siteId]: reviewRes.data }));
+      setReviewInputs((prev) => ({ ...prev, [siteId]: { text: "", rating: 0 } }));
+    } catch (err) {
+      console.error("Error submitting review:", err);
+      alert("Failed to submit review.");
+    } finally {
+      setSubmittingReviewId(null);
+    }
+  };
+
+  // Update review via API call
+  const handleSaveEdit = async (reviewId: string) => {
+    try {
+      await axios.put(
+        `http://localhost:5000/api/reviews/${reviewId}`,
+        { reviewText: editInputs.text, rating: editInputs.rating },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setMessage("Review updated successfully.");
+      setTimeout(() => setMessage(null), 3000);
+
+      // Refresh the reviews for the site of the edited review
+      const siteId = favorites.find((site) =>
+        reviews[site.id]?.some((r) => r._id === reviewId)
+      )?.id;
+
+      if (siteId) {
+        const reviewRes = await axios.get(`http://localhost:5000/api/reviews/site/${encodeURIComponent(siteId)}`);
+        setReviews((prev) => ({ ...prev, [siteId]: reviewRes.data }));
+      }
+
+      setEditingReviewId(null);
+    } catch (err) {
+      console.error("Error updating review:", err);
+      alert("Failed to update review.");
+    }
+  };
+
+  
+  const hasUserReviewed = (siteId: string): boolean => {
+    if (!reviews[siteId] || !user) return false;
+    return reviews[siteId].some((review) => review.userId.username === user.username);
   };
 
   if (!user) {
@@ -298,8 +172,8 @@ const UserProfile: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-slate-100 to-slate-200 flex flex-col lg:flex-row">
-      {/* Sidebar */}
-      <aside className="w-full lg:w-72 bg-white shadow-md p-6 flex flex-col items-center">
+       <hr></hr>
+      <aside className="w-full lg:w-72 bg-slate-300 shadow-md p-6 flex flex-col items-center">
         <div className="w-24 h-24 rounded-full bg-blue-500 flex items-center justify-center text-3xl font-bold text-white mb-4 shadow-md">
           {user.avatarUrl ? (
             <img src={user.avatarUrl} alt="Avatar" className="w-full h-full rounded-full object-cover" />
@@ -311,17 +185,10 @@ const UserProfile: React.FC = () => {
         <p className="text-gray-600 text-sm">{user.email}</p>
         {user.location && <p className="text-gray-500 text-sm mt-1">{user.location}</p>}
       </aside>
-
-      {/* Main content */}
+ <div className="hidden lg:block border-l border-gray-300"></div>
       <main className="flex-1 p-6 sm:p-8">
         <h1 className="text-3xl font-bold text-gray-800 mb-6">Your Favorite Places</h1>
-
-        {message && (
-          <div className="mb-4 p-4 bg-green-100 text-green-700 rounded-md shadow-sm">
-            {message}
-          </div>
-        )}
-
+        {message && <div className="mb-4 p-4 bg-green-100 text-green-700 rounded-md shadow-sm">{message}</div>}
         {loading ? (
           <p className="text-gray-600">Loading...</p>
         ) : favorites.length === 0 ? (
@@ -335,7 +202,7 @@ const UserProfile: React.FC = () => {
               >
                 <div className="space-y-1">
                   <h3 className="text-lg font-semibold text-gray-800">{site.properties.name}</h3>
-                  <p className="text-sm text-gray-500">{site.properties.address || "No address available"}</p>
+                  <p className="text-sm text-gray-500">Coordinate: {site.geometry.coordinates || "No address available"}</p>
                   {site.properties.website && (
                     <a
                       href={site.properties.website}
@@ -345,6 +212,118 @@ const UserProfile: React.FC = () => {
                     >
                       Visit Website
                     </a>
+                  )}
+
+                  <div className="mt-4">
+                    <h4 className="text-sm font-medium text-gray-700 mb-1">Reviews:</h4>
+                    {reviews[site.id]?.length ? (
+                      <ul className="space-y-1">
+                        {reviews[site.id].map((rev) => {
+                          const isOwner = rev.userId.username === user.username;
+                          const isEditing = editingReviewId === rev._id;
+
+                          return (
+                            <li key={rev._id} className="text-sm text-gray-600">
+                              {isEditing ? (
+                                <div className="space-y-2">
+                                  <textarea
+                                    rows={2}
+                                    className="w-full p-2 border rounded text-sm"
+                                    value={editInputs.text}
+                                    onChange={(e) =>
+                                      setEditInputs((prev) => ({ ...prev, text: e.target.value }))
+                                    }
+                                  />
+                                  <StarRating
+                                    rating={editInputs.rating}
+                                    onChange={(star) =>
+                                      setEditInputs((prev) => ({ ...prev, rating: star }))
+                                    }
+                                  />
+                                  <div>
+                                    <button
+                                      className="mr-2 px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 text-sm"
+                                      onClick={() => handleSaveEdit(rev._id)}
+                                    >
+                                      Save
+                                    </button>
+                                    <button
+                                      className="px-3 py-1 bg-gray-300 rounded hover:bg-gray-400 text-sm"
+                                      onClick={() => setEditingReviewId(null)}
+                                    >
+                                      Cancel
+                                    </button>
+                                  </div>
+                                </div>
+                              ) : (
+                                <div className="flex justify-between items-center">
+                                  <span>
+                                    <span className="font-semibold text-gray-800">{rev.userId.username}</span>: {rev.reviewText}{" "}
+                                    <span className="text-yellow-500">({rev.rating}★)</span>
+                                  </span>
+                                  {isOwner && (
+                                    <button
+                                      title="Edit review"
+                                      onClick={() => {
+                                        setEditingReviewId(rev._id);
+                                        setEditInputs({ text: rev.reviewText, rating: rev.rating });
+                                      }}
+                                      className="ml-2 text-blue-600 hover:text-blue-800"
+                                    >
+                                      ✏️
+                                    </button>
+                                  )}
+                                </div>
+                              )}
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    ) : (
+                      <p className="text-gray-400 text-sm italic">No reviews yet.</p>
+                    )}
+                  </div>
+
+                  {/* Conditionally show review form or message */}
+                  {hasUserReviewed(site.id) ? (
+                    <p className="text-gray-500 italic text-sm mt-4">You have already reviewed this location.</p>
+                  ) : (
+                    <div className="mt-4 space-y-2">
+                      <textarea
+                        rows={2}
+                        className="w-full p-2 border rounded text-sm"
+                        placeholder="Write a review..."
+                        value={reviewInputs[site.id]?.text || ""}
+                        onChange={(e) =>
+                          setReviewInputs((prev) => ({
+                            ...prev,
+                            [site.id]: {
+                              ...prev[site.id],
+                              text: e.target.value,
+                            },
+                          }))
+                        }
+                      />
+                      <StarRating
+                        rating={reviewInputs[site.id]?.rating || 0}
+                        onChange={(star) =>
+                          setReviewInputs((prev) => ({
+                            ...prev,
+                            [site.id]: {
+                              ...prev[site.id],
+                              rating: star,
+                            },
+                          }))
+                        }
+                      />
+                      <button
+                        className="bg-blue-600 text-white text-sm px-3 py-1 rounded hover:bg-blue-700 disabled:opacity-50"
+                        onClick={() => submitReview(site.id)}
+                        disabled={submittingReviewId === site.id}
+                      >
+                        {submittingReviewId === site.id ? "Submitting..." : "Submit Review"}
+                      </button>
+                    </div>
                   )}
                 </div>
                 <button
@@ -364,4 +343,4 @@ const UserProfile: React.FC = () => {
   );
 };
 
-export default UserProfile;
+export default Dashboard;

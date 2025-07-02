@@ -10,57 +10,51 @@ const highlights = [
   {
     title: "Karl Marx Monument",
     description:
-      "A towering 7.1-meter bronze sculpture unveiled in 1971, symbolizing Chemnitz's industrial legacy. Nicknamed 'Nischel', it's a cultural icon.",
-    image:oldPhoto1,
+      "This large bronze statue, called 'Nischel' by locals, was built in 1971. It stands as a strong symbol of Chemnitz’s industrial history and honors the hardworking people of the city.",
+    image: oldPhoto1,
   },
   {
     title: "Old and New Town Halls",
     description:
-      "Experience the juxtaposition of the reconstructed Old Town Hall and the preserved New Town Hall, known for their carillons and charm.",
+      "The Old Town Hall, carefully rebuilt, shows the city’s long history, while the New Town Hall is known for its beautiful carillon music. Together, they represent Chemnitz’s past and present.",
     image: oldPhoto2,
   },
   {
     title: "Market Square (Marktplatz)",
     description:
-      "Dating back to the 12th century, this square is surrounded by historic buildings like the Church of St. Jakobi and Gewandhaus.",
+      "Since the 12th century, Market Square has been the center of life in Chemnitz. Surrounded by historic buildings like the Church of St. Jakobi, it is a place where people gather and share stories.",
     image: oldPhoto3,
   },
   {
     title: "Red Tower (Roter Turm)",
     description:
-      "Among the oldest structures in Chemnitz, once part of the medieval city fortifications.",
+      "The Red Tower is one of the oldest buildings in Chemnitz. It was once part of the city’s walls and reminds us of the city’s long history of protection and strength.",
     image: oldPhoto4,
   },
   {
     title: "Stadthalle Chemnitz",
     description:
-      "Cultural venue built between 1969–1974, known for its Rochlitz porphyry facade and unique design.",
+      "Built between 1969 and 1974, Stadthalle is a well-known cultural center. Its unique stone facade makes it special, and it hosts many concerts and events for the city.",
     image: oldPhoto5,
   },
   {
     title: "Schloßberg Museum",
     description:
-      "Located on the historic hill, this museum features the former abbey and castle structures with medieval art.",
+      "Located on Schloßberg Hill, this museum is set in old abbey and castle buildings. It shows medieval art and tells the story of Chemnitz’s history.",
     image: oldPhoto6,
   },
   {
     title: "Theaterplatz",
     description:
-      "One of Chemnitz’s most elegant squares, featuring the Opera House, Kunstsammlungen, and Petrikirche.",
-    image:oldPhoto7,
+      "Theaterplatz is an important square in Chemnitz. It is home to the Opera House, art collections, and the Petrikirche church — a place full of culture and history.",
+    image: oldPhoto7,
   },
   {
     title: "Gunzenhauser Museum",
     description:
-      "A modern art museum in a historic building, showcasing works by Otto Dix and other 20th-century artists.",
+      "This museum is known for its collection of modern art, including works by Otto Dix. It is housed in a historic building and connects the past with today’s art.",
     image: oldPhoto8,
   },
-  // {
-  //   title: "Botanical Garden Chemnitz",
-  //   description:
-  //     "Spanning 12 hectares, this garden features diverse flora from across the world in serene surroundings.",
-  //   image: "/images/botanical-garden.jpg",
-  // },
 ];
 
 export default function ReadMoreMagazine() {
