@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-// Define the schema for a single Feature item
+
 const SiteItemSchema = new Schema({
   type: { type: String },
   id: { type: String },
@@ -20,6 +20,6 @@ const SiteSchema = new Schema({
   features: [SiteItemSchema]
 });
 
-// Export the model
+
 const Site = mongoose.model('Site',SiteSchema);
 module.exports = Site;

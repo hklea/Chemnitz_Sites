@@ -14,16 +14,15 @@ router.post("/:userId/favorites", authMiddleware, async (req, res) => {
   const { siteId } = req.body;
 
   try {
-    // Authorization check
+  
     if (req.userId !== userId) {
       return res.status(403).json({ message: "Unauthorized" });
     }
 
-    // Find user by userId
+   
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({ message: "User not found" });
 
-    // Get the main Site document
     const bigSiteDoc = await Site.findOne();
     if (!bigSiteDoc) return res.status(404).json({ message: "Site data not found" });
 

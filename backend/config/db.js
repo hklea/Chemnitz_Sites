@@ -16,7 +16,6 @@ async function connectDB() {
     console.log('Connected to MongoDB');
 
     if (mongoose.connection.db) {
-      // Make sure collection name matches what mongoose/model uses
       const collections = await mongoose.connection.db.listCollections({ name: 'sites' }).toArray();
       if (collections.length === 0) {
         await Site.createCollection();

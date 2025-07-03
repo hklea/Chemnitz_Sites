@@ -1,10 +1,10 @@
 
 const User = require("../model/User");
-const Site = require("../model/culturalsite"); // your FeatureCollection model
+const Site = require("../model/culturalsite");
 
 
 const addFavoriteSite = async (req, res) => {
-  const userId = req.userId; // from middleware auth
+  const userId = req.userId;
   const { featureId } = req.body;
 
   if (!featureId) {
@@ -12,7 +12,6 @@ const addFavoriteSite = async (req, res) => {
   }
 
   try {
-    // Verify the feature exists in any Site document
     const featureExists = await Site.aggregate([
       { $unwind: "$features" },
       { $match: { "features.id": featureId } },
@@ -23,21 +22,21 @@ const addFavoriteSite = async (req, res) => {
       return res.status(404).json({ message: "Feature with given ID not found." });
     }
 
-    // Find the user by userId from middleware
+    
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({ message: "User not found." });
 
-    // Defensive check for favorites array
+    
     if (!Array.isArray(user.favorites)) {
       user.favorites = [];
     }
 
-    // Check if featureId is already in favorites
+    
     if (user.favorites.includes(featureId)) {
       return res.status(400).json({ message: "Feature already in favorites." });
     }
 
-    // Add to favorites
+  
     user.favorites.push(featureId);
     await user.save();
 
@@ -48,7 +47,7 @@ const addFavoriteSite = async (req, res) => {
 };
 
 const removeFavoriteSite = async (req, res) => {
-  const userId = req.userId; // from middleware
+  const userId = req.userId; 
   const { featureId } = req.body;
 
   if (!featureId) {
@@ -59,7 +58,7 @@ const removeFavoriteSite = async (req, res) => {
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({ message: "User not found." });
 
-    // Defensive check
+   
     if (!Array.isArray(user.favorites)) {
       user.favorites = [];
     }
@@ -89,7 +88,7 @@ const getFavoriteSites = async (req, res) => {
       return res.status(200).json([]);
     }
 
-    // Find matching features using aggregation
+   
     const favoriteFeatures = await Site.aggregate([
       { $unwind: "$features" },
       { $match: { "features.id": { $in: user.favorites } } },
