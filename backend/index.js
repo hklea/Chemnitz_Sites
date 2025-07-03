@@ -7,6 +7,7 @@ const culturalSitesRoutes = require('../backend/routes/sites');
 const authRoutes=require('./routes/auth');
 const favoriteRoutes = require("./routes/favourite");
 const reviewRoutes = require("./routes/reviewRoutes");
+const connectDB= require('./config/db')
 
 
 const PORT = process.env.PORT || 5000;
@@ -16,14 +17,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect(MONGODB_URI)
-.then(() => {
-  console.log('Connected to MongoDB!');
-})
-.catch((error) => {
-  console.error('Error connecting to MongoDB:', error);
-});
-
+// mongoose.connect(MONGODB_URI)
+// .then(() => {
+//   console.log('Connected to MongoDB!');
+// })
+// .catch((error) => {
+//   console.error('Error connecting to MongoDB:', error);
+// });
+connectDB()
 
 app.use('/api/users', userRoutes);
 app.use('/api/cultural-sites', culturalSitesRoutes);
